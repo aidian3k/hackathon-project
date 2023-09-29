@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  database:
+    container_name: db
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+
+  backend:
+    container_name: app-backend
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+
+  frontend:
+    container_name: app-frontend
+    depends_on:
+      - backend
+    build:
+      context: react_client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
