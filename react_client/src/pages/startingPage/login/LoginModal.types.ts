@@ -4,6 +4,6 @@ export type LoginModalProps = {
 };
 
 export type LoginProps = {
-  login: string;
+  email: string;
   password: string;
 };

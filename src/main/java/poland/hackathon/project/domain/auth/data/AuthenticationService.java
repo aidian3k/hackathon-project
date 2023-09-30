@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import poland.hackathon.project.domain.auth.model.RegistrationRequest;
@@ -40,7 +41,10 @@ public class AuthenticationService {
 			.build();
 
 		if (userRepository.existsByEmail(user.getEmail())) {
-			throw new EmailTakenException("User with this email already exists");
+			throw new EmailTakenException(
+				"User with this email already exists",
+				HttpStatus.BAD_REQUEST
+			);
 		}
 
 		User savedUser = userRepository.save(user);
