@@ -1,15 +1,9 @@
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Paper,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import "../../index.css";
 import { useState } from "react";
 import LoginModal from "./login/LoginModal";
 import RegisterModal from "./register/RegisterModal";
+import WhyUsComponent from "./whyUsComponent/whyUsComponent";
 
 export const StartingPage = () => {
   const [showLoginModal, setShowLoginModal] = useState(true);
@@ -63,13 +57,11 @@ export const StartingPage = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      {/* kontener z tłem */}
       <div
-        className="bg-no-repeat bg-cover bg-center h-full overflow-hidden"
+        className="bg-no-repeat bg-cover bg-center h-full overflow-hidden flex items-center justify-center"
         style={{ backgroundImage: 'url("/assets/background.jpg")' }}
       >
-        {/*<img src="/assets/background.jpg" />*/}
-        aaaaaa
+        <WhyUsComponent />
       </div>
       <LoginModal open={showLoginModal} onClose={closeLoginModal} />
       <RegisterModal open={showRegisterModal} onClose={closeRegisterModal} />
