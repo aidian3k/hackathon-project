@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Paper, Typography, Grid, Container, Box, Button } from "@mui/material";
-import WhyUsPaper from "./whyUsPaper";
+import { Grid, Container, Box, Button } from '@mui/material';
+import WhyUsPaper from "./WhyUsPaper";
 
 type WhyUsComponentProps = {
   openRegisterModal: () => void;

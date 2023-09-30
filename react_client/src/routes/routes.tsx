@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "../pages/loginPage/loginPage";
+import DashboardPage from "../pages/dashboardPage/dashboardPage";
 import { StartingPage } from "../pages/startingPage/StartingPage";
+
 
 export const router = createBrowserRouter([
   {
@@ -9,7 +11,7 @@ export const router = createBrowserRouter([
     path: "/",
   },
   {
-    element: <div>udało się zarejestrować</div>,
+    element: <DashboardPage />,
     errorElement: <div>wyjebało się</div>,
     path: "/dashboard",
   },
