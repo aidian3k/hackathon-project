@@ -11,11 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterModalProps, RegisterProps } from "./RegisterModal.types";
 import { registerValidationSchema } from "./RegisterModal.validation";
 import { sendRegisterRequest } from "../../../api/register/sendRegisterRequest";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
   const [registerError, setRegisterError] = useState("");
@@ -26,15 +27,15 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
   } = useForm<RegisterProps>({
     resolver: yupResolver(registerValidationSchema),
   });
+  const navigate: NavigateFunction = useNavigate();
 
   const onSubmit = async (data: RegisterProps) => {
     const success = await sendRegisterRequest(data);
     if (success) {
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     } else {
       setRegisterError("Wystąpił błąd rejestracji");
     }
-    console.log(data);
   };
 
   return (
@@ -118,12 +119,12 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                     <FormLabel component="legend">Płeć</FormLabel>
                     <RadioGroup {...field} row>
                       <FormControlLabel
-                        value="male"
+                        value="MALE"
                         control={<Radio />}
                         label="Mężczyzna"
                       />
                       <FormControlLabel
-                        value="female"
+                        value="FEMALE"
                         control={<Radio />}
                         label="Kobieta"
                       />
