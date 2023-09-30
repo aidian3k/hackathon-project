@@ -13,6 +13,7 @@ import lombok.Setter;
 public class GenericExceptionResponse {
 
 	private String message;
-
+	private LocalDateTime timeStamp;
 	private String throwableName;
+	private int httpStatus;
 }

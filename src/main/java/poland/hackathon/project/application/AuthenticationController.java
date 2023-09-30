@@ -9,10 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import poland.hackathon.project.domain.auth.data.AuthenticationService;
 import poland.hackathon.project.domain.auth.model.AuthenticationRequest;
 import poland.hackathon.project.domain.auth.model.AuthenticationResponse;
@@ -26,6 +23,7 @@ import poland.hackathon.project.domain.user.dto.UserDto;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
+@CrossOrigin(origins = "http://localhost:3000")
 class AuthenticationController {
 
 	private final AuthenticationProvider authenticationProvider;
@@ -33,12 +31,12 @@ class AuthenticationController {
 	private final UserDetailsService userDetailsService;
 	private final AuthenticationService authenticationService;
 
-	@GetMapping(
+	@PostMapping(
 		value = "/api/authenticate",
 		consumes = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<AuthenticationResponse> authenticateUser(
-		AuthenticationRequest authenticationRequest
+		@RequestBody AuthenticationRequest authenticationRequest
 	) {
 		final String userEmail = authenticationRequest.getEmail();
 		final String hashedPassword = authenticationRequest.getPassword();
@@ -65,7 +63,7 @@ class AuthenticationController {
 		@RequestBody RegistrationRequest registrationRequest
 	) {
 		UserDto user = authenticationService.registerUser(registrationRequest);
-		log.error(user.toString());
+
 		RegistrationResponse response = RegistrationResponse
 			.builder()
 			.user(user)
