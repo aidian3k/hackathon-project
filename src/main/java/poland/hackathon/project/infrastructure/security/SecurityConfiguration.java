@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,8 +27,8 @@ class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http)
 		throws Exception {
 		// disabling csrf and cors because of using JWT token
-		http.csrf().disable();
-		http.cors().disable();
+		http.cors(AbstractHttpConfigurer::disable);
+		http.csrf(AbstractHttpConfigurer::disable);
 
 		// disable server authentication management
 		http.sessionManagement(httpSecuritySessionManagementConfigurer ->
@@ -48,10 +49,11 @@ class SecurityConfiguration {
 		});
 
 		http.logout(logout -> {
-			logout.logoutUrl("/api/logout")
-					.addLogoutHandler(customLogoutHandler)
-					.clearAuthentication(true)
-					.logoutSuccessUrl("/");
+			logout
+				.logoutUrl("/api/logout")
+				.addLogoutHandler(customLogoutHandler)
+				.clearAuthentication(true)
+				.logoutSuccessUrl("/");
 		});
 
 		return http.build();
