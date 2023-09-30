@@ -1,11 +1,11 @@
 .paper-button {
-    border-style: solid;
+    border-style: dotted;
     border-color: white;
     color: navy;
 }
 
 .paper-button:hover {
-    border-style: solid;
+    border-style: dotted;
     border-color: green;
     color: green;
 }

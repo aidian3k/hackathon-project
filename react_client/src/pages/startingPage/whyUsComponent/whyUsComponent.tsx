@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Grid, Container, Box, Button } from '@mui/material';
+import { Grid, Container, Box, Button, Typography } from '@mui/material';
 import WhyUsPaper from "./WhyUsPaper";
 
 type WhyUsComponentProps = {
