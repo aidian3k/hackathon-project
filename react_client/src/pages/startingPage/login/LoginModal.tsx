@@ -34,7 +34,7 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <Controller
-                name="login"
+                name="email"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
@@ -42,8 +42,8 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
                     {...field}
                     fullWidth
                     label="login"
-                    error={!!errors.login}
-                    helperText={errors.login?.message}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
                   />
                 )}
               />
