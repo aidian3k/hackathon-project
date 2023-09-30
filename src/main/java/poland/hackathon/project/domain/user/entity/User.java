@@ -1,16 +1,12 @@
 package poland.hackathon.project.domain.user.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,12 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import poland.hackathon.project.domain.gender.dto.Gender;
 import poland.hackathon.project.domain.token.entity.Token;
 import poland.hackathon.project.infrastructure.annotations.Password;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -42,9 +35,6 @@ public class User implements UserDetails {
 	@Size(max = 255)
 	private String name;
 
-	@Size(max = 255)
-	private String surname;
-
 	@Email
 	@Size(min = 6, max = 255)
 	private String email;
@@ -60,6 +50,12 @@ public class User implements UserDetails {
 		mappedBy = "user"
 	)
 	private List<Token> tokens = new ArrayList<>();
+
+	@Positive
+	private int age;
+
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

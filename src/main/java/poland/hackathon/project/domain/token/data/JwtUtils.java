@@ -38,6 +38,19 @@ public class JwtUtils {
 		return claimsResolver.apply(claims);
 	}
 
+	public <T> T extractSignedClaim(
+		String token,
+		Function<Claims, T> claimsResolver
+	) {
+		final Claims claims = Jwts
+			.parserBuilder()
+			.setSigningKey(getSigningKey())
+			.build()
+			.parseClaimsJws(token)
+			.getBody();
+		return claimsResolver.apply(claims);
+	}
+
 	public boolean isTokenValid(String token, UserDetails userDetails) {
 		final String email = extractEmail(token);
 		return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
