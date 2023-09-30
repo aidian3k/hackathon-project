@@ -8,9 +8,9 @@ interface PaperButtonProps {
 
 const PaperButton: React.FC<PaperButtonProps> = ({ text, imgSrc }) => {
     return (
-        <Paper elevation={4} className="p-3 paper-button" style={{ borderRadius: '20px', minHeight: "200px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: 'center' }}>
-            <img height="200px" src={imgSrc} alt="Icon" />
-            <Typography variant="h5">{text}</Typography>
+        <Paper elevation={4} className="relative p-3 paper-button" style={{ height: "100%", borderRadius: '20px', minHeight: "200px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: 'center' }}>
+                <img  src={imgSrc} alt="Icon" />
+                <Typography variant="h5" className="absolute bottom-4">{text}</Typography>
         </Paper>
     );
 };

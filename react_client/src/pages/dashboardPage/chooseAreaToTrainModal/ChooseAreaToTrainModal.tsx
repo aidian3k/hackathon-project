@@ -34,7 +34,7 @@ export default function ChooseAreaToTrainModal() {
             >
 
                 <Box bgcolor="#f5f5f5" p={2} sx={style}>
-                    <h1>What skills do you want to improve?</h1>
+                <Typography variant="h5" className="pb-5">What skills do you want to improve?</Typography>
                     <Grid container spacing={6}>
                         <Grid item xs={12} sm={4}>
                             <PaperButton text="Physical" imgSrc="https://img.freepik.com/free-vector/smart-training-abstract-concept-vector-illustration-smart-training-online-programs-tools-new-gym-technology-fitness-coaching-application-improve-health-fat-loss-toning-abstract-metaphor_335657-4009.jpg?w=826&t=st=1696087870~exp=1696088470~hmac=5d8dbdb47705ca5e80019fd7064605b4ca15abb06b50b5e627a9e124f48843d8" />
