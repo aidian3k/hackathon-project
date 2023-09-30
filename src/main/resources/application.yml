@@ -1,13 +1,22 @@
 spring:
   datasource:
+    url: "jdbc:postgresql://localhost:5432/postgres"
     username: "root"
     password: "root"
-    url: "jdbc:postgresql://localhost:5432/postgres"
     driver-class-name: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+    defer-datasource-initialization: true
 server:
   port: 8080
+
+app:
+  jwt:
+    secret: 2JVPQzNKnRwTRYGXCywcLA==
+    token:
+      expiration:
+        milis: 900000
