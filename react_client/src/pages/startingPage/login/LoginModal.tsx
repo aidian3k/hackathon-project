@@ -1,11 +1,13 @@
-import { Button, Modal, TextField, Typography } from "@mui/material";
+import { Button, Grid, Modal, TextField, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { LoginModalProps, LoginProps } from "./LoginModal.types";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { loginValidationSchema } from "./LoginModal.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { sendLoginRequest } from "../../../api/login/sendLoginRequest";
 
 const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
+  const [loginError, setLoginError] = useState("");
   const {
     control,
     handleSubmit,
@@ -14,8 +16,13 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
     resolver: yupResolver(loginValidationSchema),
   });
 
-  const onSubmit = (data: LoginProps) => {
-    // TODO handle login
+  const onSubmit = async (data: LoginProps) => {
+    const success = await sendLoginRequest(data);
+    if (success) {
+      window.location.href = "/dashboard";
+    } else {
+      setLoginError("Nie udało się zalogować");
+    }
     console.log(data);
   };
 
@@ -57,6 +64,13 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
                 )}
               />
             </div>
+            <Grid>
+              {loginError && (
+                <Typography variant="caption" color="error">
+                  {loginError}
+                </Typography>
+              )}
+            </Grid>
             <Button type="submit" variant="contained" color="primary">
               Zaloguj
             </Button>

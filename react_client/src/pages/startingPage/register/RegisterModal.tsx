@@ -3,19 +3,22 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
   Modal,
   Radio,
   RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterModalProps, RegisterProps } from "./RegisterModal.types";
 import { registerValidationSchema } from "./RegisterModal.validation";
+import { sendRegisterRequest } from "../../../api/register/sendRegisterRequest";
 
 const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
+  const [registerError, setRegisterError] = useState("");
   const {
     control,
     handleSubmit,
@@ -24,8 +27,13 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
     resolver: yupResolver(registerValidationSchema),
   });
 
-  const onSubmit = (data: RegisterProps) => {
-    // TODO handle login
+  const onSubmit = async (data: RegisterProps) => {
+    const success = await sendRegisterRequest(data);
+    if (success) {
+      window.location.href = "/dashboard";
+    } else {
+      setRegisterError("Wystąpił błąd rejestracji");
+    }
     console.log(data);
   };
 
@@ -129,6 +137,13 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                 )}
               />
             </div>
+            <Grid>
+              {registerError && (
+                <Typography variant="caption" color="error">
+                  {registerError}
+                </Typography>
+              )}
+            </Grid>
             <Button type="submit" variant="contained" color="primary">
               Zarejestruj
             </Button>
