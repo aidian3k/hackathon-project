@@ -1,14 +1,23 @@
 package poland.hackathon.project.domain.token.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import poland.hackathon.project.domain.user.entity.User;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "access_token")
+@Table(name = "tokens")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,5 +31,9 @@ public class Token {
 
 	private String value;
 	private LocalDateTime expirationDate;
-	private LocalDateTime validTo;
+	private LocalDateTime issuedDate;
+
+	@ManyToOne
+	@ToString.Exclude
+	private User user;
 }

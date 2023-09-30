@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 class SecurityConfiguration {
 
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
+	private final CustomLogoutHandler customLogoutHandler;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -43,6 +44,13 @@ class SecurityConfiguration {
 		http.authorizeHttpRequests(request -> {
 			request.requestMatchers("localhost:8080/swagger-ui").permitAll();
 			request.anyRequest().authenticated();
+		});
+
+		http.logout(logout -> {
+			logout.logoutUrl("/api/logout")
+					.addLogoutHandler(customLogoutHandler)
+					.clearAuthentication(true)
+					.logoutSuccessUrl("/");
 		});
 
 		return http.build();

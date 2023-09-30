@@ -14,7 +14,7 @@ import poland.hackathon.project.domain.user.data.UserRepository;
 
 @Configuration
 @RequiredArgsConstructor
-class AuthenticationConfiguration {
+public class AuthenticationConfiguration {
 
 	private final UserRepository userRepository;
 
