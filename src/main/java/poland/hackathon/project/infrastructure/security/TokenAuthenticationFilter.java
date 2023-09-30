@@ -10,6 +10,7 @@ import java.io.IOException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,8 +30,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	private final JwtUtils tokenProvider;
 	private final UserDetailsService userDetailsService;
 
-	private static final String JWT_TOKEN_PREFIX = "Baerer ";
-	private static final String JWT_TOKEN_HEADER = "Authentication";
+	private static final String JWT_TOKEN_PREFIX = "Bearer ";
 
 	@Override
 	protected void doFilterInternal(
@@ -77,7 +77,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	private Either<Throwable, String> getJwtFromUserRequest(
 		@NotNull HttpServletRequest request
 	) {
-		final String userToken = request.getHeader(JWT_TOKEN_HEADER);
+		final String userToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
 		if (userToken != null && userToken.startsWith(JWT_TOKEN_PREFIX)) {
 			return Either.right(userToken.replace(JWT_TOKEN_PREFIX, ""));

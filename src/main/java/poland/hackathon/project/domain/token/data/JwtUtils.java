@@ -25,7 +25,7 @@ public class JwtUtils {
 	}
 
 	public String extractEmail(String token) {
-		return extractClaim(token, Claims::getSubject);
+		return extractSignedClaim(token, Claims::getSubject);
 	}
 
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -72,7 +72,7 @@ public class JwtUtils {
 	}
 
 	private boolean isTokenExpired(String token) {
-		Date jwtDate = extractClaim(token, Claims::getExpiration);
+		Date jwtDate = extractSignedClaim(token, Claims::getExpiration);
 		return jwtDate.before(new Date());
 	}
 }
