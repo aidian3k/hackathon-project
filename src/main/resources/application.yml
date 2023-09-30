@@ -16,7 +16,7 @@ server:
 
 app:
   jwt:
-    secret: 2JVPQzNKnRwTRYGXCywcLA==
+    secret: 2JVPQzNKnRwTRYGXCywcLAassdad123123sdaassasadadasa==
     token:
       expiration:
         milis: 900000

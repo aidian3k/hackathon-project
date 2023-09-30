@@ -7,14 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import poland.hackathon.project.domain.user.entity.User;
-
 import java.time.LocalDateTime;
+import lombok.*;
+import poland.hackathon.project.domain.user.entity.User;
 
 @Entity
 @Table(name = "tokens")
@@ -22,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Token {
 
 	@Id

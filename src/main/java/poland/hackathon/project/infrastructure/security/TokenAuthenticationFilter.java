@@ -1,10 +1,12 @@
 package poland.hackathon.project.infrastructure.security;
 
+import io.vavr.control.Either;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import java.io.IOException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import poland.hackathon.project.domain.token.data.JwtUtils;
 import poland.hackathon.project.infrastructure.exception.validation.InvalidRequestException;
-
-import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
@@ -37,10 +37,16 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		@NonNull HttpServletResponse response,
 		@NonNull FilterChain filterChain
 	) throws ServletException, IOException {
-		final String userToken = getJwtFromUserRequest(request);
-		final String userEmail = tokenProvider.extractEmail(
-			userToken
+		final Either<Throwable, String> tokenEither = getJwtFromUserRequest(
+			request
 		);
+		if (tokenEither.isLeft()) {
+			log.error("Cannot get token from request!");
+			filterChain.doFilter(request, response);
+			return;
+		}
+		final String userToken = tokenEither.get();
+		final String userEmail = tokenProvider.extractEmail(userToken);
 
 		try {
 			final UserDetails userDetails = userDetailsService.loadUserByUsername(
@@ -67,15 +73,19 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	@NonNull
-	private String getJwtFromUserRequest(@NotNull HttpServletRequest request) {
+	private Either<Throwable, String> getJwtFromUserRequest(
+		@NotNull HttpServletRequest request
+	) {
 		final String userToken = request.getHeader(JWT_TOKEN_HEADER);
 
 		if (userToken != null && userToken.startsWith(JWT_TOKEN_PREFIX)) {
-			return userToken.replace(JWT_TOKEN_PREFIX, "");
+			return Either.right(userToken.replace(JWT_TOKEN_PREFIX, ""));
 		}
 
-		throw new InvalidRequestException(
-			String.format("There is a problem with token request=[%s]", userToken)
+		return Either.left(
+			new InvalidRequestException(
+				String.format("There is a problem with token request=[%s]", userToken)
+			)
 		);
 	}
 }

@@ -43,6 +43,7 @@ class SecurityConfiguration {
 
 		http.authorizeHttpRequests(request -> {
 			request.requestMatchers("localhost:8080/swagger-ui").permitAll();
+			request.requestMatchers("/api/register").permitAll();
 			request.anyRequest().authenticated();
 		});
 
