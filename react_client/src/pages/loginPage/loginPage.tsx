@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { FC } from "react";
-import WhyUsComponent  from "../startingPage/whyUsComponent/whyUsComponent"
+import WhyUsComponent  from "../startingPage/whyUsComponent/WhyUsComponent"
 
 export const LoginPage: FC = () => {
   return (

@@ -1,0 +1,17 @@
+.paper-button {
+    border-style: solid;
+    border-color: white;
+    color: navy;
+}
+
+.paper-button:hover {
+    border-style: solid;
+    border-color: green;
+    color: green;
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}
+
