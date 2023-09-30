@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/routes";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -8,6 +10,8 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={createTheme()}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );

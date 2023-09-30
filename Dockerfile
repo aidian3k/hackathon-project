@@ -14,4 +14,4 @@ COPY src ./src
 RUN ./gradlew build
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "path/to/your/project.jar"]
+ENTRYPOINT ["java", "-jar", "build/libs/project-0.0.1-SNAPSHOT.jar"]

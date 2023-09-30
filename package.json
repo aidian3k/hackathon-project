@@ -9,5 +9,10 @@
     "java-parser": "~2.0.4",
     "prettier": "~2.8.7",
     "prettier-plugin-java": "^1.6.2"
+  },
+  "dependencies": {
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.11",
+    "@uidotdev/usehooks": "^2.3.1"
   }
 }
