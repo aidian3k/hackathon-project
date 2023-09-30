@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 public class JwtUtils {
 
 	@Value("${app.jwt.secret}")
-	private static String jwtSecret;
+	private String jwtSecret;
 
 	@Value("${app.jwt.token.expiration.milis}")
-	private static long tokenExpMilis;
+	private long tokenExpMilis;
 
 	public String generateToken(UserDetails userDetails) {
 		return generateNewToken(userDetails, tokenExpMilis);
