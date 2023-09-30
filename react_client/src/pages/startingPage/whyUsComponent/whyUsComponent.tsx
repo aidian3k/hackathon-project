@@ -2,7 +2,11 @@ import { FC } from "react";
 import { Paper, Typography, Grid, Container, Box, Button } from "@mui/material";
 import WhyUsPaper from "./whyUsPaper";
 
-const WhyUsComponent: FC = () => {
+type WhyUsComponentProps = {
+  openRegisterModal: () => void;
+};
+
+const WhyUsComponent: FC<WhyUsComponentProps> = ({ openRegisterModal }) => {
   return (
     <Box bgcolor="#f5f5f5" p={2} sx={{ borderRadius: 2 }}>
       <Container style={{ marginTop: "20px" }}>
@@ -29,7 +33,7 @@ const WhyUsComponent: FC = () => {
           </Grid>
         </Grid>
         <h2> So, become a part of our satisfied community!</h2>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={openRegisterModal}>
           Join Now
         </Button>
       </Container>

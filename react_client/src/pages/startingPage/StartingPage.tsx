@@ -6,7 +6,7 @@ import RegisterModal from "./register/RegisterModal";
 import WhyUsComponent from "./whyUsComponent/whyUsComponent";
 
 export const StartingPage = () => {
-  const [showLoginModal, setShowLoginModal] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   const closeLoginModal = () => {
@@ -61,7 +61,7 @@ export const StartingPage = () => {
         className="bg-no-repeat bg-cover bg-center h-full overflow-hidden flex items-center justify-center"
         style={{ backgroundImage: 'url("/assets/background.jpg")' }}
       >
-        <WhyUsComponent />
+        <WhyUsComponent openRegisterModal={openRegisterModal} />
       </div>
       <LoginModal open={showLoginModal} onClose={closeLoginModal} />
       <RegisterModal open={showRegisterModal} onClose={closeRegisterModal} />
