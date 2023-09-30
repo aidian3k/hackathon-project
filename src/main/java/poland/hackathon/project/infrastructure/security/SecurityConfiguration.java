@@ -27,7 +27,7 @@ class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http)
 		throws Exception {
 		// disabling csrf and cors because of using JWT token
-		http.cors(AbstractHttpConfigurer::disable);
+		http.cors();
 		http.csrf(AbstractHttpConfigurer::disable);
 
 		// disable server authentication management
@@ -44,6 +44,7 @@ class SecurityConfiguration {
 
 		http.authorizeHttpRequests(request -> {
 			request.requestMatchers("localhost:8080/swagger-ui").permitAll();
+			request.requestMatchers("/api/authenticate").permitAll();
 			request.requestMatchers("/api/register").permitAll();
 			request.anyRequest().authenticated();
 		});
@@ -62,14 +63,5 @@ class SecurityConfiguration {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(10);
-	}
-
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", corsConfiguration);
-
-		return source;
 	}
 }
