@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 public class JwtUtils {
 
 	@Value("${app.jwt.secret}")
-	private static String jwtSecret;
+	private String jwtSecret;
 
 	@Value("${app.jwt.token.expiration.milis}")
-	private static long tokenExpMilis;
+	private long tokenExpMilis;
 
 	public String generateToken(UserDetails userDetails) {
 		return generateNewToken(userDetails, tokenExpMilis);
@@ -34,6 +34,19 @@ public class JwtUtils {
 			.setSigningKey(getSigningKey())
 			.build()
 			.parseClaimsJwt(token)
+			.getBody();
+		return claimsResolver.apply(claims);
+	}
+
+	public <T> T extractSignedClaim(
+		String token,
+		Function<Claims, T> claimsResolver
+	) {
+		final Claims claims = Jwts
+			.parserBuilder()
+			.setSigningKey(getSigningKey())
+			.build()
+			.parseClaimsJws(token)
 			.getBody();
 		return claimsResolver.apply(claims);
 	}

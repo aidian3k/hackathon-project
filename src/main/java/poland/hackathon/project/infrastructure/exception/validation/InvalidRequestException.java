@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 	reason = "There was bad request passed to the given endpoint"
 )
 public class InvalidRequestException extends RuntimeException {
-    public InvalidRequestException(String message) {
-        super(message);
-    }
+
+	public InvalidRequestException(String message) {
+		super(message);
+	}
 }

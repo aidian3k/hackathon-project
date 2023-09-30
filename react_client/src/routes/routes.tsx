@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "../pages/loginPage/loginPage";
 import DashboardPage from "../pages/dashboardPage/dashboardPage";
+import { StartingPage } from "../pages/startingPage/StartingPage";
+
 
 export const router = createBrowserRouter([
   {
-    element: <LoginPage />,
+    element: <StartingPage />,
     errorElement: <div>wyjebało się</div>,
     path: "/",
   },

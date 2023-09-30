@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
-import poland.hackathon.project.domain.user.User;
+import poland.hackathon.project.domain.user.entity.User;
 
 @Service
 @RequiredArgsConstructor

@@ -2,9 +2,9 @@ package poland.hackathon.project.domain.auth.model;
 
 import lombok.Getter;
 
+@Getter
 public class AuthenticationResponse {
 
-	@Getter
 	private final String accessToken;
 
 	private AuthenticationResponse(String accessToken) {
