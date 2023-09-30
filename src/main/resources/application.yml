@@ -5,8 +5,16 @@ spring:
     password: "root"
     driver-class-name: org.postgresql.Driver
   jpa:
+    #database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: create-drop
 server:
   port: 8080
+
+app:
+  jwt:
+    secret: 2JVPQzNKnRwTRYGXCywcLA==
+    token:
+      expiration:
+        milis: 900000
