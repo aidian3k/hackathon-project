@@ -36,12 +36,10 @@ class SecurityConfiguration {
 
 		http.authorizeHttpRequests(request -> {
 			request.requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll();
-			request.requestMatchers(
-				"/swagger**"
-			).permitAll();
+			request.requestMatchers("/swagger**").permitAll();
 			request.requestMatchers("/api/authenticate").permitAll();
 			request.requestMatchers("/api/register").permitAll();
-			request.requestMatchers("/api/userprofilzer/**").permitAll();
+			request.requestMatchers("/api/buildUserGoals").permitAll();
 			request.anyRequest().authenticated();
 		});
 

@@ -9,14 +9,13 @@ import poland.hackathon.project.domain.chat.data.ChatBotService;
 import poland.hackathon.project.domain.chat.model.GoalsResponse;
 
 @RestController
-@RequestMapping("/api/userprofilzer")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class UserProfilzerController {
+public class UserProfilizerController {
 
 	private final ChatBotService chatBotService;
 
-	@PostMapping("/generateProfile")
+	@PostMapping("/api/buildUserGoals")
 	public ResponseEntity<List<GoalsResponse>> generateProfile(
 		@RequestBody Map<String, String> questionsAndAnswers
 	) {

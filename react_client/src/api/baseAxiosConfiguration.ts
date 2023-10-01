@@ -13,7 +13,7 @@ apiService.interceptors.request.use(
       // @ts-ignore
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-
+    config.headers['Content-Type'] = 'application/json';
     return config;
   },
   async error => Promise.reject(error)
