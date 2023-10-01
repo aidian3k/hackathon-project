@@ -9,7 +9,11 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import poland.hackathon.project.domain.auth.data.AuthenticationService;
 import poland.hackathon.project.domain.auth.model.AuthenticationRequest;
 import poland.hackathon.project.domain.auth.model.AuthenticationResponse;
@@ -17,7 +21,9 @@ import poland.hackathon.project.domain.auth.model.RegistrationRequest;
 import poland.hackathon.project.domain.auth.model.RegistrationResponse;
 import poland.hackathon.project.domain.status.dto.ResponseStatus;
 import poland.hackathon.project.domain.token.data.JwtUtils;
+import poland.hackathon.project.domain.user.data.CurrentUserService;
 import poland.hackathon.project.domain.user.dto.UserDto;
+import poland.hackathon.project.domain.user.entity.User;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +36,7 @@ class AuthenticationController {
 	private final JwtUtils tokenProvider;
 	private final UserDetailsService userDetailsService;
 	private final AuthenticationService authenticationService;
+	private final CurrentUserService currentUserService;
 
 	@PostMapping(
 		value = "/api/authenticate",
@@ -72,5 +79,14 @@ class AuthenticationController {
 			.build();
 
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/api/shouldOpenTrainModal")
+	public ResponseEntity<Boolean> shouldOpenTrainModel() {
+		User currentUser = currentUserService.getCurrentUserDetails();
+		boolean isUserFirstLogin = currentUser.isFirstLogin();
+		// we have to set this flag to false after submitting the form
+
+		return new ResponseEntity<>(isUserFirstLogin, HttpStatus.OK);
 	}
 }

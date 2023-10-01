@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -20,9 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import poland.hackathon.project.domain.chat.model.GoalsResponse;
 import poland.hackathon.project.domain.chat.model.Role;
+import poland.hackathon.project.infrastructure.exception.chatgpt.ChatGptResponseException;
 
 @Service
 @Slf4j
@@ -99,8 +100,11 @@ public class ChatBotService {
 
 			return responseList;
 		} catch (IOException | JSONException e) {
-			log.error("An error occured while trying to connect to CHATGPT");
-			throw new IllegalStateException(e);
+			log.error("An error occured while trying to get a response from CHATGPT");
+			throw new ChatGptResponseException(
+				"ChatGpt's response exception",
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
 		}
 	}
 

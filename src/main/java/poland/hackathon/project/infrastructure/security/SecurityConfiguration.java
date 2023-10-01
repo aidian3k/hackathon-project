@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfiguration {
 
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
-	private final CustomLogoutHandler customLogoutHandler;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -36,12 +35,10 @@ class SecurityConfiguration {
 
 		http.authorizeHttpRequests(request -> {
 			request.requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll();
-			request.requestMatchers(
-				"/swagger**"
-			).permitAll();
+			request.requestMatchers("/swagger**").permitAll();
 			request.requestMatchers("/api/authenticate").permitAll();
 			request.requestMatchers("/api/register").permitAll();
-			request.requestMatchers("/api/userprofilzer/**").permitAll();
+			request.requestMatchers("/api/buildUserGoals").permitAll();
 			request.anyRequest().authenticated();
 		});
 
@@ -53,9 +50,9 @@ class SecurityConfiguration {
 		http.logout(logout ->
 			logout
 				.logoutUrl("/api/logout")
-				.addLogoutHandler(customLogoutHandler)
 				.clearAuthentication(true)
 				.logoutSuccessUrl("/")
+				.invalidateHttpSession(true)
 		);
 
 		return http.build();
