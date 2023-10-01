@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -21,12 +22,15 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import poland.hackathon.project.domain.chat.entity.GoalEntity;
 import poland.hackathon.project.domain.chat.model.GoalsResponse;
 import poland.hackathon.project.domain.chat.model.Role;
+import poland.hackathon.project.domain.user.entity.User;
 import poland.hackathon.project.infrastructure.exception.chatgpt.ChatGptResponseException;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ChatBotService {
 
 	@Value("${app.chatgpt.endpoint}")
@@ -35,9 +39,25 @@ public class ChatBotService {
 	@Value("${app.chatgpt.apiKey}")
 	private String apiKey;
 
-	public List<GoalsResponse> getGoals(Map<String, String> questionsAndAnswers) {
+	private final GoalRepository goalRepository;
+
+	public List<GoalsResponse> getGoals(
+		Map<String, String> questionsAndAnswers,
+		User user
+	) {
 		String input = formatInputData(questionsAndAnswers);
-		return sendGoalsQuery(input);
+		List<GoalsResponse> goals = sendGoalsQuery(input);
+		if (!goals.isEmpty()) {
+			List<GoalEntity> goalEntities = goals
+				.get(0)
+				.getGoals()
+				.stream()
+				.map(GoalEntity::toEntity)
+				.toList();
+			goalEntities.forEach(goalEntity -> goalEntity.setUser(user));
+			goalRepository.saveAll(goalEntities);
+		}
+		return goals;
 	}
 
 	private String formatInputData(Map<String, String> questionsAndAnswers) {
@@ -60,7 +80,7 @@ public class ChatBotService {
 		chatInput
 			.append(formattedQuestions)
 			.append(
-				"\nThe response must be in json format and contain the following array of objects with fields: title, description, path(array of(title, description, practicalSteps(array of string))), estimatedCompletionTime"
+				"\nThe response must be in json format and contain the following array of objects with fields:\n [title: string, description: string, path: Array<{title: string, description: string, practicalSteps: Array<string>}>, estimatedCompletionTime: string]"
 			);
 		return chatInput.toString();
 	}
@@ -119,7 +139,7 @@ public class ChatBotService {
 
 		payload.put("model", "gpt-3.5-turbo");
 		payload.put("messages", messageList);
-		payload.put("max_tokens", 2000);
+		payload.put("max_tokens", 3000);
 		payload.put("temperature", 0.7);
 
 		StringEntity inputEntity = new StringEntity(

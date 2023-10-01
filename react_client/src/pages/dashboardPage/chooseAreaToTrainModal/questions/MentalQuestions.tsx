@@ -1,39 +1,70 @@
-import React, { FC } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { FC, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
-  Stepper,
+  Button,
+  CircularProgress,
+  Grid,
   Step,
   StepLabel,
-  Button,
-  Typography,
+  Stepper,
   TextField,
-  Grid,
+  Typography,
 } from "@mui/material";
 import {
   mentalQuestions,
   MentalQuestionsProps,
   MentalQuestionsType,
+  PhysicalQuestionsType,
 } from "./Questions.types";
 
 const questionKeys = Object.keys(mentalQuestions);
 
 const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
-  const { handleSubmit, control, formState } = useForm<MentalQuestionsType>();
+  const { handleSubmit, control, formState, setValue, getValues } =
+    useForm<MentalQuestionsType>();
   const { isSubmitting } = formState;
   const [activeStep, setActiveStep] = React.useState(0);
+  const [progress, setProgress] = useState(0);
+  const [weAreClose, setWeAreClose] = useState(false);
+  const [textFieldValue, setTextFieldValue] = useState("");
 
   const handleNext = () => {
+    setValue(
+      questionKeys[activeStep] as keyof MentalQuestionsType,
+      textFieldValue
+    );
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setTextFieldValue("");
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const onSubmit = (data: MentalQuestionsType) => {
-    onFormSubmit(data);
-    console.log(data);
+  const betterSubmit = () => {
+    onFormSubmit(getValues());
+    console.log(getValues());
+    handleNext();
   };
+
+  const onSubmit = (data: MentalQuestionsType) => {};
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevState) => {
+        if (prevState >= 100) {
+          setWeAreClose(true);
+          return 0;
+        }
+
+        return prevState + 10;
+      });
+    }, 2000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -62,9 +93,27 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
         <Grid item xs={12}>
           <form onSubmit={handleSubmit(onSubmit)}>
             {activeStep === questionKeys.length ? (
-              <Typography variant="h5">
-                Thank you for submitting the form.
-              </Typography>
+              <div className={""}>
+                <Typography variant="h5">
+                  Thank you for submitting the form.
+                </Typography>
+                <div className={"flex items-center gap-2"}>
+                  <Typography variant="h5">
+                    {!weAreClose ? (
+                      <p>We are generating best courses for you!</p>
+                    ) : (
+                      <p>We are close!</p>
+                    )}
+                  </Typography>
+                </div>
+                <div className={"flex justify-center items-center mt-2"}>
+                  <CircularProgress
+                    value={progress}
+                    variant={"determinate"}
+                    size={75}
+                  />
+                </div>
+              </div>
             ) : (
               <>
                 <Typography variant="h6">
@@ -81,6 +130,10 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
                       fullWidth
                       variant="outlined"
                       margin="normal"
+                      value={textFieldValue}
+                      onChange={(e) => {
+                        setTextFieldValue(e.target.value);
+                      }}
                     />
                   )}
                 />
@@ -93,18 +146,19 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      onClick={handleNext}
-                      disabled={isSubmitting}
+                      onClick={betterSubmit}
+                      disabled={isSubmitting || !textFieldValue}
                       sx={{ ml: 2 }}
                     >
                       Submit
                     </Button>
                   ) : (
                     <Button
+                      type="button"
                       variant="contained"
                       color="primary"
                       onClick={handleNext}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !textFieldValue}
                       sx={{ ml: 2 }}
                     >
                       Next

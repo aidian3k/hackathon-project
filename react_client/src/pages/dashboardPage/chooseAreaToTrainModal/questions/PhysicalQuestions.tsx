@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Button,
@@ -19,34 +19,45 @@ import {
 const questionKeys = Object.keys(physicalQuestions);
 
 const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
-  const { handleSubmit, control, formState } = useForm<PhysicalQuestionsType>();
+  const { handleSubmit, control, formState, setValue, getValues } =
+    useForm<PhysicalQuestionsType>();
   const { isSubmitting } = formState;
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [weAreClose, setWeAreClose] = useState(false);
+  const [textFieldValue, setTextFieldValue] = useState("");
 
   const handleNext = () => {
+    setValue(
+      questionKeys[activeStep] as keyof PhysicalQuestionsType,
+      textFieldValue
+    );
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setTextFieldValue("");
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const onSubmit = (data: PhysicalQuestionsType) => {
-    if (activeStep === questionKeys.length - 1) {
-      onFormSubmit(data);
-    }
+  const betterSubmit = () => {
+    onFormSubmit(getValues());
+    console.log(getValues());
+    handleNext();
   };
+
+  const onSubmit = (data: PhysicalQuestionsType) => {};
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      if (progress >= 100) {
-        setWeAreClose(true);
-        setProgress(0);
-      } else {
-        setProgress((prevProgress) => prevProgress + 10);
-      }
+      setProgress((prevState) => {
+        if (prevState >= 100) {
+          setWeAreClose(true);
+          return 0;
+        }
+
+        return prevState + 10;
+      });
     }, 2000);
 
     return () => {
@@ -111,6 +122,10 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       fullWidth
                       variant="outlined"
                       margin="normal"
+                      value={textFieldValue}
+                      onChange={(e) => {
+                        setTextFieldValue(e.target.value);
+                      }}
                     />
                   )}
                 />
@@ -123,7 +138,7 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      onClick={handleNext}
+                      onClick={betterSubmit}
                       disabled={isSubmitting}
                       sx={{ ml: 2 }}
                     >
@@ -134,7 +149,7 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       variant="contained"
                       color="primary"
                       onClick={handleNext}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !textFieldValue}
                       sx={{ ml: 2 }}
                     >
                       Next
