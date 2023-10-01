@@ -1,9 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import LoginPage from "../pages/loginPage/loginPage";
 import DashboardPage from "../pages/dashboardPage/dashboardPage";
 import { StartingPage } from "../pages/startingPage/StartingPage";
 import GoalDetails from "../pages/dashboardPage/goalDetails/GoalDetails";
-
 
 export const router = createBrowserRouter([
   {

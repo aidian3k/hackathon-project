@@ -1,10 +1,11 @@
 import { Button, Grid, Modal, TextField, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { LoginModalProps, LoginProps } from "./LoginModal.types";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { loginValidationSchema } from "./LoginModal.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { sendLoginRequest } from "../../../api/login/sendLoginRequest";
+import { useNavigate } from "react-router-dom";
 
 const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
   const [loginError, setLoginError] = useState("");
@@ -15,11 +16,12 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
   } = useForm<LoginProps>({
     resolver: yupResolver(loginValidationSchema),
   });
+  const navigate = useNavigate();
 
   const onSubmit = async (data: LoginProps) => {
     const success = await sendLoginRequest(data);
     if (success) {
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     } else {
       setLoginError("Nie udało się zalogować");
     }

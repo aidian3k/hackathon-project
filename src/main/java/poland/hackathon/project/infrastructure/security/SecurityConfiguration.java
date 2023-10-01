@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfiguration {
 
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
-	private final CustomLogoutHandler customLogoutHandler;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http)
@@ -51,9 +50,9 @@ class SecurityConfiguration {
 		http.logout(logout ->
 			logout
 				.logoutUrl("/api/logout")
-				.addLogoutHandler(customLogoutHandler)
 				.clearAuthentication(true)
 				.logoutSuccessUrl("/")
+				.invalidateHttpSession(true)
 		);
 
 		return http.build();

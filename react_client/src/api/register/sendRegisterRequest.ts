@@ -6,7 +6,7 @@ export const sendRegisterRequest = async (registerProps: RegisterProps) => {
   try {
     const response = await apiService.post('/api/register', registerProps);
     debugger;
-    if (response.status === 200 && response.data?.user) {
+    if (response.status === 201 && !!response.data?.user) {
       const user = response.data.user;
       const token = user.tokens[0];
       setToken(token);

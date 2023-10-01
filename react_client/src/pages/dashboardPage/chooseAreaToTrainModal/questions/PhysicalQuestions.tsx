@@ -1,13 +1,14 @@
 import React, { FC, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
-  Stepper,
+  Button,
+  CircularProgress,
+  Grid,
   Step,
   StepLabel,
-  Button,
-  Typography,
+  Stepper,
   TextField,
-  Grid,
+  Typography,
 } from "@mui/material";
 import {
   physicalQuestions,
@@ -21,6 +22,8 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
   const { handleSubmit, control, formState } = useForm<PhysicalQuestionsType>();
   const { isSubmitting } = formState;
   const [activeStep, setActiveStep] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [weAreClose, setWeAreClose] = useState(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -35,6 +38,21 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
       onFormSubmit(data);
     }
   };
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (progress >= 100) {
+        setWeAreClose(true);
+        setProgress(0);
+      } else {
+        setProgress((prevProgress) => prevProgress + 10);
+      }
+    }, 2000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -56,9 +74,27 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
         <Grid item xs={12}>
           <form onSubmit={handleSubmit(onSubmit)}>
             {activeStep === questionKeys.length ? (
-              <Typography variant="h5">
-                Thank you for submitting the form.
-              </Typography>
+              <div className={""}>
+                <Typography variant="h5">
+                  Thank you for submitting the form.
+                </Typography>
+                <div className={"flex items-center gap-2"}>
+                  <Typography variant="h5">
+                    {!weAreClose ? (
+                      <p>We are generating best courses for you!</p>
+                    ) : (
+                      <p>We are close!</p>
+                    )}
+                  </Typography>
+                </div>
+                <div className={"flex justify-center items-center mt-2"}>
+                  <CircularProgress
+                    value={progress}
+                    variant={"determinate"}
+                    size={75}
+                  />
+                </div>
+              </div>
             ) : (
               <>
                 <Typography variant="h6">

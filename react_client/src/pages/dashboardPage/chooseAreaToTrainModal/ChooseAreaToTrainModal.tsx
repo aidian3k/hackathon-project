@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useState } from "react";
+import { FC, useState } from "react";
 import Modal from "@mui/material/Modal";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import "./chooseAreaToTrainModal.css";
 import Areas from "./areas/Areas";
 import { AreaTypes } from "./areas/Areas.types";
@@ -20,11 +20,14 @@ const style = {
   borderRadius: "20px",
 };
 
-export default function ChooseAreaToTrainModal() {
-  const [open, setOpen] = React.useState(false);
+export const ChooseAreaToTrainModal: FC<{ isOpened: boolean }> = (props) => {
+  const [open, setOpen] = React.useState(props.isOpened ?? false);
   const [activeArea, setActiveArea] = useState<AreaTypes | null>(null);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = (event: any, reason: any) => {
+    if (reason && reason == "backdropClick") return;
+    setOpen(false);
+  };
 
   const openQuestions = (area: AreaTypes | null) => {
     setActiveArea(area);
@@ -37,10 +40,8 @@ export default function ChooseAreaToTrainModal() {
       return <Areas openQuestions={openQuestions} />;
     }
   };
-
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -53,4 +54,4 @@ export default function ChooseAreaToTrainModal() {
       </Modal>
     </div>
   );
-}
+};

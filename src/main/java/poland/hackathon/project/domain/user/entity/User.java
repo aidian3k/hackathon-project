@@ -54,6 +54,9 @@ public class User implements UserDetails {
 	@Size(min = 0, max = 256)
 	private String password;
 
+	@Builder.Default
+	private boolean isFirstLogin = true;
+
 	@OneToMany(
 		fetch = FetchType.LAZY,
 		cascade = CascadeType.ALL,
@@ -85,17 +88,17 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
