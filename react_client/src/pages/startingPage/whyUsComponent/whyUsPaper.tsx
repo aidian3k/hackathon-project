@@ -23,7 +23,9 @@ export const WhyUsPaper: FC<WhyUsPaperProps> = (props: WhyUsPaperProps) => {
     >
       <img height="200px" src={props.imgSrc} alt="Icon" />
       <Box p={2}>
-        <Typography variant="h5">{props.text}</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          {props.text}
+        </Typography>
       </Box>
     </Paper>
   );
