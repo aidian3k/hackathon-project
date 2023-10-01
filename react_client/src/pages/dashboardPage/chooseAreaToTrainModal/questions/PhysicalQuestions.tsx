@@ -50,12 +50,14 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      if (progress >= 100) {
-        setWeAreClose(true);
-        setProgress(0);
-      } else {
-        setProgress((prevProgress) => prevProgress + 10);
-      }
+      setProgress((prevState) => {
+        if (prevState >= 100) {
+          setWeAreClose(true);
+          return 0;
+        }
+
+        return prevState + 10;
+      });
     }, 2000);
 
     return () => {
