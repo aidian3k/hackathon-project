@@ -89,6 +89,7 @@ export const GoalElement: FC<{
       </Box>
       <div className="md:flex">
         <div className="md:shrink-0">
+        {/* <a href="https://www.freepik.com/free-vector/healthy-lifestyle-concept-illustration_13429938.htm#query=physical%20health&position=4&from_view=search&track=ais#page=1&query=p&from_query=undefined&position=0&from_view=search&track=ais">Image by storyset</a> on Freepik */}
           <img
             className="h-48 w-full object-cover md:h-full md:w-48"
             src={props.typeOfGoal.toUpperCase() === "PHYSICAL"
@@ -96,13 +97,6 @@ export const GoalElement: FC<{
               : "https://d2jx2rerrg6sh3.cloudfront.net/image-handler/ts/20220124072653/ri/1350/src/images/Article_Images/ImageForArticle_22028_16430272124432966.jpg"}
             alt=""
           />
-
-          {/* <img
-            className="h-48 w-full object-cover md:h-full md:w-48"
-            // src="https://d2jx2rerrg6sh3.cloudfront.net/image-handler/ts/20220124072653/ri/1350/src/images/Article_Images/ImageForArticle_22028_16430272124432966.jpg"
-            src="https://img.freepik.com/free-vector/healthy-lifestyle-concept-illustration_114360-5659.jpg?w=826&t=st=1696148264~exp=1696148864~hmac=3fa3a530f94eee9fab7f33685e04978cfe11efa96a66316887d1e4bf9aeed361"
-            alt=""
-          /> */}
         </div>
         <div className="p-8">
           <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">

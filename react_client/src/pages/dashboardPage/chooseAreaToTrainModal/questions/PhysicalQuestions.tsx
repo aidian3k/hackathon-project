@@ -147,6 +147,7 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
         </Grid>
       </Grid>
       <Grid item xs={4}>
+      {/* <a href="https://www.freepik.com/free-vector/smart-training-abstract-concept-vector-illustration-smart-training-online-programs-tools-new-gym-technology-fitness-coaching-application-improve-health-fat-loss-toning-abstract-metaphor_12468739.htm#query=physical%20skill&position=24&from_view=search&track=ais">Image by vectorjuice</a> on Freepik */}
         <img
           src="https://img.freepik.com/free-vector/smart-training-abstract-concept-vector-illustration-smart-training-online-programs-tools-new-gym-technology-fitness-coaching-application-improve-health-fat-loss-toning-abstract-metaphor_335657-4009.jpg?w=826&t=st=1696087870~exp=1696088470~hmac=5d8dbdb47705ca5e80019fd7064605b4ca15abb06b50b5e627a9e124f48843d8"
           alt="Icon"

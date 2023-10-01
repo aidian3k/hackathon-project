@@ -14,6 +14,7 @@ const GoalDescription: FC = () => {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
+                        {/* <a href="https://www.freepik.com/free-vector/tiny-cardiology-doctor-nurse-examining-heart-blood-pressure-prescribing-treatment-medical-cardiovascular-checkup-flat-vector-illustration-anatomy-hospital-heart-diseases-health-care-concept_21683392.htm#query=health&position=4&from_view=search&track=sph">Image by pch.vector</a> on Freepik */}
                             <img height="100%" src="https://img.freepik.com/free-vector/tiny-cardiology-doctor-nurse-examining-heart-blood-pressure-prescribing-treatment-medical-cardiovascular-checkup-flat-vector-illustration-anatomy-hospital-heart-diseases-health-care-concept_74855-20963.jpg?w=1380&t=st=1696111863~exp=1696112463~hmac=6b704023cfecb7496e12f3ca6f92e3d8de8cbee2f08407d7703aa1bc1fa8492d" alt="Icon" />
                         </Grid>
                     </Grid>
