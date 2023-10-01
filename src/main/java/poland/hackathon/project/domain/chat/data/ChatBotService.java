@@ -21,10 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import poland.hackathon.project.domain.chat.entity.GoalEntity;
 import poland.hackathon.project.domain.chat.model.GoalsResponse;
 import poland.hackathon.project.domain.chat.model.Role;
+import poland.hackathon.project.domain.user.data.UserRepository;
 import poland.hackathon.project.domain.user.entity.User;
 import poland.hackathon.project.infrastructure.exception.chatgpt.ChatGptResponseException;
 
@@ -40,6 +42,7 @@ public class ChatBotService {
 	private String apiKey;
 
 	private final GoalRepository goalRepository;
+	private final UserRepository userRepository;
 
 	public List<GoalsResponse> getGoals(
 		Map<String, String> questionsAndAnswers,
@@ -56,6 +59,8 @@ public class ChatBotService {
 				.toList();
 			goalEntities.forEach(goalEntity -> goalEntity.setUser(user));
 			goalRepository.saveAll(goalEntities);
+			user.setFirstLogin(false);
+			userRepository.save(user);
 		}
 		return goals;
 	}
