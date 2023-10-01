@@ -11,12 +11,16 @@ import { AreaTypes } from "../areas/Areas.types";
 import PhysicalQuestions from "./PhysicalQuestions";
 import MentalQuestions from "./MentalQuestions";
 import { sendBuildUserGoalsRequest } from "../../../../api/buildUserGoals/sendBuildUserGoalsRequest";
+import { updateGoals } from "../../../../redux/goals/goals.slice";
+import { useAppDispatch } from "../../../../utils/ReduxHooks";
+import { GoalsResponse } from "../../../../redux/goals/goals.types";
 
 export const Questions: FC<QuestionsProps> = ({ areaType }) => {
   const [physicalAnswers, setPhysicalAnswers] =
     useState<PhysicalQuestionsType | null>(null);
   const [mentalAnswers, setMentalAnswers] =
     useState<MentalQuestionsType | null>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const map = new Map<string, string>();
@@ -42,25 +46,28 @@ export const Questions: FC<QuestionsProps> = ({ areaType }) => {
       }
     }
     if (areaType === AreaTypes.PHYSICAL || areaType === AreaTypes.MENTAL) {
-      sendBuildUserGoalsRequest(map);
+      // @ts-ignore
+      sendBuildUserGoalsRequest(map).then((goalsResponse: GoalsResponse[]) => {
+        // TODO save to redux
+        debugger;
+        if (goalsResponse) {
+          dispatch(updateGoals(goalsResponse[0].goals));
+        }
+      });
     } else if (
       areaType === AreaTypes.BOTH &&
       physicalAnswers &&
       mentalAnswers
     ) {
-      sendBuildUserGoalsRequest(map);
+      // @ts-ignore
+      sendBuildUserGoalsRequest(map).then((goalsResponse: GoalsResponse[]) => {
+        // TODO save to redux
+        debugger;
+        if (goalsResponse) {
+          dispatch(updateGoals(goalsResponse[0].goals));
+        }
+      });
     }
-    // if (
-    //   physicalAnswers?.fitnessAppsAndDevices &&
-    //   mentalAnswers?.interpersonalDevelopmentGoals
-    // ) {
-    //   sendBuildUserGoalsRequest(map);
-    // } else if (
-    //   physicalAnswers?.fitnessAppsAndDevices ||
-    //   mentalAnswers?.interpersonalDevelopmentGoals
-    // ) {
-    //   sendBuildUserGoalsRequest(map);
-    // }
   }, [physicalAnswers, mentalAnswers]);
 
   const renderQuestions = () => {

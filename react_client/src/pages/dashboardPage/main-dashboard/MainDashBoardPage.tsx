@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress, Box } from "@mui/material";
 import apiService from "../../../api/baseAxiosConfiguration";
 import { API_TOKEN } from "../../../api/session";
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@mui/material/LinearProgress";
+import { RootState } from "../../../redux/store";
+import { useAppSelector } from "../../../utils/ReduxHooks";
 
 export const MainDashBoardPage: FC = () => {
+  const goals = useAppSelector((state: RootState) => state.goals.goals);
+
   return (
     <>
       <DashBoardNavbar />
@@ -56,20 +60,14 @@ export const MainDashBoardPage: FC = () => {
           </h1>
         </div>
         <div className={"grid grid-cols-2 gap-10"}>
-          <GoalElement
-            typeOfGoal={"Mental"}
-            titleOfSubGoal={"Learning how to deal with stress"}
-            description={
-              "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
-            }
-          />
-          <GoalElement
-            typeOfGoal={"Mental"}
-            titleOfSubGoal={"Learning how to deal with stress"}
-            description={
-              "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
-            }
-          />
+          {goals?.map((goal, index) => (
+            <GoalElement
+              key={index}
+              typeOfGoal={"Mental"}
+              titleOfSubGoal={goal.title}
+              description={goal.description}
+            />
+          ))}
         </div>
         <Footer />
       </div>
@@ -84,7 +82,7 @@ export const GoalElement: FC<{
 }> = (props) => {
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl cursor-pointer hover:scale-105">
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: "100%" }}>
         <LinearProgress variant="determinate" value={69} />
       </Box>
       <div className="md:flex">
@@ -183,9 +181,9 @@ export const DashBoardNavbar: FC = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 1h15M1 7h15M1 13h15"
             />
           </svg>

@@ -4,6 +4,8 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routes/routes";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./utils/projectTheme";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -12,7 +14,9 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>
 );
