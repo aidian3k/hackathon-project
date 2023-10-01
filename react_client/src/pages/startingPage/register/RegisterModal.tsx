@@ -118,12 +118,12 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                     <FormLabel component="legend">Płeć</FormLabel>
                     <RadioGroup {...field} row>
                       <FormControlLabel
-                        value="male"
+                        value="MALE"
                         control={<Radio />}
                         label="Mężczyzna"
                       />
                       <FormControlLabel
-                        value="female"
+                        value="FEMALE"
                         control={<Radio />}
                         label="Kobieta"
                       />
