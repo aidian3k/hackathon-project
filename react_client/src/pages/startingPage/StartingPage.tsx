@@ -26,7 +26,15 @@ export const StartingPage = () => {
   };
 
   return (
-    <div className="h-screen">
+    <div
+      className="h-screen"
+      style={{
+        backgroundImage: 'url("https://img.freepik.com/free-vector/white-abstract-background-design_23-2148825582.jpg?w=1380&t=st=1696125628~exp=1696126228~hmac=a681f5245651df7717580a75da77fdc13b000747e28bdbeba232e1dd6ed7c7b4")', // Replace with your image URL
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <AppBar
         position="sticky"
         className="shadow-md"
@@ -57,10 +65,7 @@ export const StartingPage = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <div
-        className="bg-no-repeat bg-cover bg-center h-full overflow-hidden flex items-center justify-center"
-        style={{ backgroundImage: 'url("/assets/background.jpg")' }}
-      >
+      <div className="h-full overflow-hidden flex items-center justify-center">
         <WhyUsComponent openRegisterModal={openRegisterModal} />
       </div>
       <LoginModal open={showLoginModal} onClose={closeLoginModal} />
