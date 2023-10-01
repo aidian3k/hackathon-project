@@ -9,7 +9,6 @@ import {
   Stepper,
   TextField,
   Typography,
-  CircularProgress,
 } from "@mui/material";
 import {
   mentalQuestions,
