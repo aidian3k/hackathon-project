@@ -11,11 +11,12 @@ import { AreaTypes } from "../areas/Areas.types";
 import PhysicalQuestions from "./PhysicalQuestions";
 import MentalQuestions from "./MentalQuestions";
 import { sendBuildUserGoalsRequest } from "../../../../api/buildUserGoals/sendBuildUserGoalsRequest";
-import { updateGoals } from "../../../../redux/goals/goals.slice";
+import { setGoals } from "../../../../redux/goals/goals.slice";
 import { useAppDispatch } from "../../../../utils/ReduxHooks";
 import { GoalsResponse } from "../../../../redux/goals/goals.types";
+import { BuildUserGoalsResponse } from "../../goalDetails/GoalDetails.types";
 
-export const Questions: FC<QuestionsProps> = ({ areaType }) => {
+export const Questions: FC<QuestionsProps> = ({ areaType, onClose }) => {
   const [physicalAnswers, setPhysicalAnswers] =
     useState<PhysicalQuestionsType | null>(null);
   const [mentalAnswers, setMentalAnswers] =
@@ -46,27 +47,34 @@ export const Questions: FC<QuestionsProps> = ({ areaType }) => {
       }
     }
     if (areaType === AreaTypes.PHYSICAL || areaType === AreaTypes.MENTAL) {
-      // @ts-ignore
-      sendBuildUserGoalsRequest(map).then((goalsResponse: GoalsResponse[]) => {
-        // TODO save to redux
-        debugger;
-        if (goalsResponse) {
-          dispatch(updateGoals(goalsResponse[0].goals));
+      sendBuildUserGoalsRequest(map).then(
+        // @ts-ignore
+        (goalsResponse: BuildUserGoalsResponse[] | null) => {
+          // TODO save to redux
+          debugger;
+          if (goalsResponse) {
+            dispatch(setGoals(goalsResponse[0].goals));
+            onClose();
+          }
         }
-      });
+      );
     } else if (
       areaType === AreaTypes.BOTH &&
       physicalAnswers &&
       mentalAnswers
     ) {
       // @ts-ignore
-      sendBuildUserGoalsRequest(map).then((goalsResponse: GoalsResponse[]) => {
-        // TODO save to redux
-        debugger;
-        if (goalsResponse) {
-          dispatch(updateGoals(goalsResponse[0].goals));
+      sendBuildUserGoalsRequest(map).then(
+        // @ts-ignore
+        (goalsResponse: BuildUserGoalsResponse[] | null) => {
+          // TODO save to redux
+          debugger;
+          if (goalsResponse) {
+            dispatch(setGoals(goalsResponse[0].goals));
+            onClose();
+          }
         }
-      });
+      );
     }
   }, [physicalAnswers, mentalAnswers]);
 

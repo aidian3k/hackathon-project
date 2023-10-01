@@ -2,6 +2,7 @@ import { AreaTypes } from '../areas/Areas.types';
 
 export interface QuestionsProps {
   areaType: AreaTypes;
+  onClose: () => void;
 }
 
 export interface PhysicalQuestionsProps {

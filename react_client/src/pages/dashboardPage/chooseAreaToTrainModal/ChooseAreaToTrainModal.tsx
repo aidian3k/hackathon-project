@@ -33,9 +33,13 @@ export const ChooseAreaToTrainModal: FC<{ isOpened: boolean }> = (props) => {
     setActiveArea(area);
   };
 
+  const closeQuestions = () => {
+    setOpen(false);
+  };
+
   const renderActiveArea = () => {
     if (activeArea !== null) {
-      return <Questions areaType={activeArea} />;
+      return <Questions areaType={activeArea} onClose={closeQuestions} />;
     } else {
       return <Areas openQuestions={openQuestions} />;
     }
