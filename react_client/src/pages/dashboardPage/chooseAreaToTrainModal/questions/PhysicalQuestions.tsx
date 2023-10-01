@@ -120,7 +120,6 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       fullWidth
                       variant="outlined"
                       margin="normal"
-                      // Set the TextField value to the separate state
                       value={textFieldValue}
                       onChange={(e) => {
                         setTextFieldValue(e.target.value);
@@ -148,7 +147,7 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       variant="contained"
                       color="primary"
                       onClick={handleNext}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !textFieldValue}
                       sx={{ ml: 2 }}
                     >
                       Next
