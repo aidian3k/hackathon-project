@@ -1,14 +1,14 @@
 import React, { FC, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
-  Stepper,
+  Button,
+  CircularProgress,
+  Grid,
   Step,
   StepLabel,
-  Button,
-  Typography,
+  Stepper,
   TextField,
-  Grid,
-  CircularProgress,
+  Typography,
 } from "@mui/material";
 import {
   mentalQuestions,
@@ -51,12 +51,14 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      if (progress >= 100) {
-        setWeAreClose(true);
-        setProgress(0);
-      } else {
-        setProgress((prevProgress) => prevProgress + 10);
-      }
+      setProgress((prevState) => {
+        if (prevState >= 100) {
+          setWeAreClose(true);
+          return 0;
+        }
+
+        return prevState + 10;
+      });
     }, 2000);
 
     return () => {
