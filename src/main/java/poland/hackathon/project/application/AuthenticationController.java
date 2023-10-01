@@ -23,7 +23,7 @@ import poland.hackathon.project.domain.user.dto.UserDto;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 class AuthenticationController {
 
 	private final AuthenticationProvider authenticationProvider;
