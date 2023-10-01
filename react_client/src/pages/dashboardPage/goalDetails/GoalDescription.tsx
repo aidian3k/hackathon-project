@@ -1,10 +1,5 @@
-
-
-
 import { FC } from "react";
-import { Grid, Container, Box, Button, Typography, Paper, Link } from '@mui/material';
-import WhyUsPaper from "../../startingPage/whyUsComponent/WhyUsPaper";
-
+import { Box, Container, Grid, Link, Paper, Typography } from "@mui/material";
 
 const GoalDescription: FC = () => {
     return (
