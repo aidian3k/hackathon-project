@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: "jdbc:postgresql://localhost:5432/postgres"
+    url: "${SPRING_DATASOURCE_URL}"
     username: "root"
     password: "root"
     driver-class-name: org.postgresql.Driver
@@ -16,10 +16,10 @@ server:
 
 app:
   jwt:
-    secret: 2JVPQzNKnRwTRYGXCywcLAassdad123123sdaassasadadasa==
+    secret: "${JWT_SECRET}"
     token:
       expiration:
         milis: 200000000
   chatgpt:
     endpoint: https://api.openai.com/v1/chat/completions
-    apiKey: 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
+    apiKey: "${OPEN_AI_API_KEY}"

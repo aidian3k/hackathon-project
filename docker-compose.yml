@@ -17,13 +17,13 @@ services:
       - database
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres
+      - JWT_SECRET=2JVPQzNKnRwTRYGXCywcLAassdad123123sdaassasadadasa==
+      - OPEN_AI_API_KEY=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
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-
-
   frontend:
     container_name: app-frontend
     depends_on:
