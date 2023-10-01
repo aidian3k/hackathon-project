@@ -19,6 +19,10 @@ public class UserProfilizerController {
 	public ResponseEntity<List<GoalsResponse>> generateProfile(
 		@RequestBody Map<String, String> questionsAndAnswers
 	) {
+		int minSize = 1;
+		if (questionsAndAnswers.size() < minSize) {
+			return ResponseEntity.badRequest().build();
+		}
 		List<GoalsResponse> result = chatBotService.getGoals(questionsAndAnswers);
 		return ResponseEntity.ok(result);
 	}

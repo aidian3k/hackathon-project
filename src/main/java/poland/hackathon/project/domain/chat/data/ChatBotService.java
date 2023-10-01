@@ -60,7 +60,7 @@ public class ChatBotService {
 		chatInput
 			.append(formattedQuestions)
 			.append(
-				"\nThe response must be in json format and contain the following array of objects with fields: title, description, path(array of(title, description, practicalSteps(array of string))), estimatedCompletionTime"
+				"\nThe response must be in json format and contain the following array of objects with fields:\n [title: string, description: string, path: Array<{title: string, description: string, practicalSteps: Array<string>}>, estimatedCompletionTime: string]"
 			);
 		return chatInput.toString();
 	}
@@ -119,7 +119,7 @@ public class ChatBotService {
 
 		payload.put("model", "gpt-3.5-turbo");
 		payload.put("messages", messageList);
-		payload.put("max_tokens", 2000);
+		payload.put("max_tokens", 3000);
 		payload.put("temperature", 0.7);
 
 		StringEntity inputEntity = new StringEntity(
