@@ -2,9 +2,9 @@ import * as yup from 'yup';
 import { RegisterProps } from './RegisterModal.types';
 
 export const registerValidationSchema = yup.object<RegisterProps>().shape({
-  email: yup.string().required('Pole jest wymagane'),
-  password: yup.string().required('Pole jest wymagane'),
-  name: yup.string().required('Pole jest wymagane'),
-  age: yup.number().required('Pole jest wymagane'),
-  gender: yup.string().required('Pole jest wymagane')
+  email: yup.string().required('Field is required'),
+  password: yup.string().required('Field is required'),
+  name: yup.string().required('Field is required'),
+  age: yup.number().required('Field is required'),
+  gender: yup.string().required('Field is required')
 });

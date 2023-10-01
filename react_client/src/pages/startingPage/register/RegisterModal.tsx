@@ -42,7 +42,7 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
     <Modal open={open} onClose={onClose}>
       <div className="flex h-screen items-center justify-center">
         <div className="w-1/3 bg-white p-4 rounded-lg">
-          <h4 className="text-lg font-semibold mb-4">Zarejestruj się!</h4>
+          <h4 className="text-lg font-semibold mb-4">Register!</h4>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <Controller
@@ -69,7 +69,7 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Hasło"
+                    label="Password"
                     type="password"
                     error={!!errors.password}
                     helperText={errors.password?.message}
@@ -86,7 +86,7 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Imię"
+                    label="Name"
                     error={!!errors.name}
                     helperText={errors.name?.message}
                   />
@@ -101,7 +101,7 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Wiek"
+                    label="Age"
                     type="number"
                     error={!!errors.age}
                     helperText={errors.age?.message}
@@ -116,17 +116,17 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                 defaultValue=""
                 render={({ field }) => (
                   <FormControl component="fieldset" error={!!errors.gender}>
-                    <FormLabel component="legend">Płeć</FormLabel>
+                    <FormLabel component="legend">Gender</FormLabel>
                     <RadioGroup {...field} row>
                       <FormControlLabel
                         value="MALE"
                         control={<Radio />}
-                        label="Mężczyzna"
+                        label="Male"
                       />
                       <FormControlLabel
                         value="FEMALE"
                         control={<Radio />}
-                        label="Kobieta"
+                        label="Female"
                       />
                     </RadioGroup>
                     {errors.gender && (
@@ -145,12 +145,14 @@ const LoginModal: FC<RegisterModalProps> = ({ open, onClose }) => {
                 </Typography>
               )}
             </Grid>
-            <Button type="submit" variant="contained" color="primary">
-              Zarejestruj
-            </Button>
-            <Button variant="contained" color="primary" onClick={onClose}>
-              Powrót
-            </Button>
+            <div className="flex justify-between">
+              <Button variant="contained" color="warning" onClick={onClose}>
+                Back
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Register
+              </Button>
+            </div>
           </form>
         </div>
       </div>
