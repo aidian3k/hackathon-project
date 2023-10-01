@@ -17,6 +17,7 @@ export const StartingPage = () => {
     setShowRegisterModal(true);
   };
 
+  // Image by <a href="https://www.freepik.com/free-vector/white-abstract-background-design_12188678.htm#query=website%20background&position=31&from_view=keyword&track=ais">Freepik</a>
   return (
     <div
       className="h-screen"

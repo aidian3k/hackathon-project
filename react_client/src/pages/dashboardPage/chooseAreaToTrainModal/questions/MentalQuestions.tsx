@@ -70,6 +70,7 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
     <Grid container spacing={2}>
       <Grid item container xs={4}>
         <img
+        // <a href="https://www.freepik.com/free-vector/gaslighting-abstract-concept-vector-illustration-psychological-manipulation-method-mental-destabilization-cognitive-dissonance-creation-changing-beliefs-contradiction-abstract-metaphor_12469757.htm#query=mental%20skill&position=2&from_view=search&track=ais">Image by vectorjuice</a> on Freepik
           src="https://img.freepik.com/free-vector/gaslighting-abstract-concept-vector-illustration-psychological-manipulation-method-mental-destabilization-cognitive-dissonance-creation-changing-beliefs-contradiction-abstract-metaphor_335657-4220.jpg?w=826&t=st=1696087577~exp=1696088177~hmac=7691b35711258c889c23f525041fa00f207c9b941eee33127db737f03f25e88f"
           alt="icon"
         />
