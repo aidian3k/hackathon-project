@@ -14,6 +14,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,13 +24,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import poland.hackathon.project.domain.chat.entity.GoalEntity;
 import poland.hackathon.project.domain.gender.dto.Gender;
 import poland.hackathon.project.domain.token.entity.Token;
 import poland.hackathon.project.infrastructure.annotations.Password;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -64,6 +64,14 @@ public class User implements UserDetails {
 		mappedBy = "user"
 	)
 	private List<Token> tokens = new ArrayList<>();
+
+	@OneToMany(
+		fetch = FetchType.LAZY,
+		cascade = CascadeType.ALL,
+		orphanRemoval = true,
+		mappedBy = "user"
+	)
+	private List<GoalEntity> goals = new ArrayList<>();
 
 	@Positive
 	private int age;

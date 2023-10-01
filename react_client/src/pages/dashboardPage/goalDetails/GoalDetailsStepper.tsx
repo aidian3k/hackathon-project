@@ -27,7 +27,6 @@ const GoalDetailsStepper: FC<GoalDetailsStepperProps> = ({ goal }) => {
 
   return (
     <Box sx={{ maxWidth: 1200 }}>
-      goal.
       <Stepper activeStep={activeStep} orientation="vertical">
         {goal.path.map((step, index) => (
           <Step key={step.title}>

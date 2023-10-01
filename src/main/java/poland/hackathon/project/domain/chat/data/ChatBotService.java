@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -20,13 +21,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import poland.hackathon.project.domain.chat.entity.GoalEntity;
 import poland.hackathon.project.domain.chat.model.GoalsResponse;
 import poland.hackathon.project.domain.chat.model.Role;
+import poland.hackathon.project.domain.user.data.UserRepository;
+import poland.hackathon.project.domain.user.entity.User;
 import poland.hackathon.project.infrastructure.exception.chatgpt.ChatGptResponseException;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ChatBotService {
 
 	@Value("${app.chatgpt.endpoint}")
@@ -35,9 +41,28 @@ public class ChatBotService {
 	@Value("${app.chatgpt.apiKey}")
 	private String apiKey;
 
-	public List<GoalsResponse> getGoals(Map<String, String> questionsAndAnswers) {
+	private final GoalRepository goalRepository;
+	private final UserRepository userRepository;
+
+	public List<GoalsResponse> getGoals(
+		Map<String, String> questionsAndAnswers,
+		User user
+	) {
 		String input = formatInputData(questionsAndAnswers);
-		return sendGoalsQuery(input);
+		List<GoalsResponse> goals = sendGoalsQuery(input);
+		if (!goals.isEmpty()) {
+			List<GoalEntity> goalEntities = goals
+				.get(0)
+				.getGoals()
+				.stream()
+				.map(GoalEntity::toEntity)
+				.toList();
+			goalEntities.forEach(goalEntity -> goalEntity.setUser(user));
+			goalRepository.saveAll(goalEntities);
+			user.setFirstLogin(false);
+			userRepository.save(user);
+		}
+		return goals;
 	}
 
 	private String formatInputData(Map<String, String> questionsAndAnswers) {
