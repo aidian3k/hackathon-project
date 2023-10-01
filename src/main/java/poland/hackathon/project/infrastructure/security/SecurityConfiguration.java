@@ -41,6 +41,7 @@ class SecurityConfiguration {
 			).permitAll();
 			request.requestMatchers("/api/authenticate").permitAll();
 			request.requestMatchers("/api/register").permitAll();
+			request.requestMatchers("/api/userprofilzer/**").permitAll();
 			request.anyRequest().authenticated();
 		});
 
