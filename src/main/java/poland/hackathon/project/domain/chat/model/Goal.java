@@ -6,8 +6,8 @@ import lombok.Value;
 @Value
 public class Goal {
 
-	private String title;
-	private String description;
-	private List<Step> path;
-	private String estimatedCompletionTime;
+	String title;
+	String description;
+	List<Step> path;
+	String estimatedCompletionTime;
 }
