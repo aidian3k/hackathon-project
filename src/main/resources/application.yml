@@ -20,3 +20,6 @@ app:
     token:
       expiration:
         milis: 900000
+  chatgpt:
+    endpoint: https://api.openai.com/v1/chat/completions
+    apiKey: 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
