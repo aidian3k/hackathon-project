@@ -23,7 +23,7 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
     if (success) {
       navigate("/dashboard");
     } else {
-      setLoginError("Nie udało się zalogować");
+      setLoginError("Login failed. Try again.");
     }
     console.log(data);
   };
@@ -32,7 +32,7 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
     <Modal open={open} onClose={onClose}>
       <div className="flex h-screen items-center justify-center">
         <div className="w-1/3 bg-white p-4 rounded-lg">
-          <h4 className="text-lg font-semibold mb-4">Zaloguj się!</h4>
+          <h4 className="text-lg font-semibold mb-4">Log in!</h4>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <Controller
@@ -73,12 +73,14 @@ const LoginModal: FC<LoginModalProps> = ({ open, onClose }) => {
                 </Typography>
               )}
             </Grid>
-            <Button type="submit" variant="contained" color="primary">
-              Zaloguj
-            </Button>
-            <Button variant="contained" color="primary" onClick={onClose}>
-              Powrót
-            </Button>
+            <div className="flex justify-between">
+              <Button variant="contained" color="warning" onClick={onClose}>
+                Back
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Login
+              </Button>
+            </div>
           </form>
         </div>
       </div>

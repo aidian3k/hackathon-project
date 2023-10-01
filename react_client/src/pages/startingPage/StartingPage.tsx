@@ -69,7 +69,7 @@ export const StartingPageNavbar: FC = () => {
             style={{ width: "30px", height: "30px" }}
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Healthiness Dolphin
+            Healthy Dolphin
           </span>
         </a>
         <button
@@ -142,7 +142,7 @@ export const Footer: FC = () => {
               style={{ width: "30px", height: "30px" }}
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Healthiness Dolphin
+              Healthy Dolphin
             </span>
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
@@ -155,7 +155,7 @@ export const Footer: FC = () => {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2023 <a className={"hover:underline"}>Healthiness Dolphin™</a>. All
+          © 2023 <a className={"hover:underline"}>Healthy Dolphin™</a>. All
           Rights Reserved.
         </span>
       </div>
