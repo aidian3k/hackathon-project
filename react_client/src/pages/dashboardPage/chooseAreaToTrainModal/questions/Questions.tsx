@@ -29,7 +29,6 @@ export const Questions: FC<QuestionsProps> = ({ areaType }) => {
       return <MentalQuestions onFormSubmit={setMentalAnswers} />;
     } else {
       if (physicalAnswers === null) {
-        debugger;
         return <PhysicalQuestions onFormSubmit={setPhysicalAnswers} />;
       } else {
         return <MentalQuestions onFormSubmit={setMentalAnswers} />;

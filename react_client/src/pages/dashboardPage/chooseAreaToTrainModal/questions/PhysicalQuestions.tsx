@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Button,
@@ -19,25 +19,34 @@ import {
 const questionKeys = Object.keys(physicalQuestions);
 
 const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
-  const { handleSubmit, control, formState } = useForm<PhysicalQuestionsType>();
+  const { handleSubmit, control, formState, setValue, getValues } =
+    useForm<PhysicalQuestionsType>();
   const { isSubmitting } = formState;
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [weAreClose, setWeAreClose] = useState(false);
+  const [textFieldValue, setTextFieldValue] = useState("");
 
   const handleNext = () => {
+    setValue(
+      questionKeys[activeStep] as keyof PhysicalQuestionsType,
+      textFieldValue
+    );
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setTextFieldValue("");
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const onSubmit = (data: PhysicalQuestionsType) => {
-    if (activeStep === questionKeys.length - 1) {
-      onFormSubmit(data);
-    }
+  const betterSubmit = () => {
+    onFormSubmit(getValues());
+    console.log(getValues());
+    handleNext();
   };
+
+  const onSubmit = (data: PhysicalQuestionsType) => {};
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -111,6 +120,11 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       fullWidth
                       variant="outlined"
                       margin="normal"
+                      // Set the TextField value to the separate state
+                      value={textFieldValue}
+                      onChange={(e) => {
+                        setTextFieldValue(e.target.value);
+                      }}
                     />
                   )}
                 />
@@ -123,7 +137,7 @@ const PhysicalQuestions: FC<PhysicalQuestionsProps> = ({ onFormSubmit }) => {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      onClick={handleNext}
+                      onClick={betterSubmit}
                       disabled={isSubmitting}
                       sx={{ ml: 2 }}
                     >

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Stepper,
@@ -8,6 +8,7 @@ import {
   Typography,
   TextField,
   Grid,
+  CircularProgress,
 } from "@mui/material";
 import {
   mentalQuestions,
@@ -21,6 +22,8 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
   const { handleSubmit, control, formState } = useForm<MentalQuestionsType>();
   const { isSubmitting } = formState;
   const [activeStep, setActiveStep] = React.useState(0);
+  const [progress, setProgress] = useState(0);
+  const [weAreClose, setWeAreClose] = useState(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -31,9 +34,26 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
   };
 
   const onSubmit = (data: MentalQuestionsType) => {
-    onFormSubmit(data);
+    if (activeStep === questionKeys.length) {
+      onFormSubmit(data);
+    }
     console.log(data);
   };
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (progress >= 100) {
+        setWeAreClose(true);
+        setProgress(0);
+      } else {
+        setProgress((prevProgress) => prevProgress + 10);
+      }
+    }, 2000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -61,9 +81,27 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
         <Grid item xs={12}>
           <form onSubmit={handleSubmit(onSubmit)}>
             {activeStep === questionKeys.length ? (
-              <Typography variant="h5">
-                Thank you for submitting the form.
-              </Typography>
+              <div className={""}>
+                <Typography variant="h5">
+                  Thank you for submitting the form.
+                </Typography>
+                <div className={"flex items-center gap-2"}>
+                  <Typography variant="h5">
+                    {!weAreClose ? (
+                      <p>We are generating best courses for you!</p>
+                    ) : (
+                      <p>We are close!</p>
+                    )}
+                  </Typography>
+                </div>
+                <div className={"flex justify-center items-center mt-2"}>
+                  <CircularProgress
+                    value={progress}
+                    variant={"determinate"}
+                    size={75}
+                  />
+                </div>
+              </div>
             ) : (
               <>
                 <Typography variant="h6">
@@ -100,6 +138,7 @@ const MentalForm: FC<MentalQuestionsProps> = ({ onFormSubmit }) => {
                     </Button>
                   ) : (
                     <Button
+                      type="button"
                       variant="contained"
                       color="primary"
                       onClick={handleNext}
