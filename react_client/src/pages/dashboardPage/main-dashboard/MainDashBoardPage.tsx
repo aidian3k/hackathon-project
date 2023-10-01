@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress, Box } from "@mui/material";
 import apiService from "../../../api/baseAxiosConfiguration";
@@ -6,71 +6,86 @@ import { API_TOKEN } from "../../../api/session";
 import LinearProgress from "@mui/material/LinearProgress";
 import { RootState } from "../../../redux/store";
 import { useAppSelector } from "../../../utils/ReduxHooks";
+import GoalDetails from "../goalDetails/GoalDetails";
+import { Goal } from "../goalDetails/GoalDetails.types";
 
 export const MainDashBoardPage: FC = () => {
   const goals = useAppSelector((state: RootState) => state.goals.goals);
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
 
+  const goBack = () => {
+    setSelectedGoal(null);
+  };
+
+  // @ts-ignore
   return (
     <>
       <DashBoardNavbar />
-      <div
-        style={{
-          backgroundImage:
-            'url("https://img.freepik.com/premium-vector/abstract-medical-background-with-hexagons-pattern-concepts-ideas-healthcare-technology-innovation-medicine-health-science-research_120542-537.jpg")',
-        }}
-      >
-        <div className={"flex items-center justify-center"}>
-          <h1 className="mb-4 md:text-4xl font-extrabold leading-none tracking-tight text-gray-900 mt-2">
-            Your active tasks
-          </h1>
-        </div>
-        <div className={"grid grid-cols-2 gap-2"}>
-          <GoalElement
-            typeOfGoal={"Physical"}
-            titleOfSubGoal={"Learning how to deal with stress"}
-            description={
-              "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
-            }
-          />
-          <GoalElement
-            typeOfGoal={"Physical"}
-            titleOfSubGoal={"Learning how to deal with stress"}
-            description={
-              "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
-            }
-          />
-          <GoalElement
-            typeOfGoal={"Mental"}
-            titleOfSubGoal={"Learning how to deal with stress"}
-            description={
-              "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
-            }
-          />
-          <GoalElement
-            typeOfGoal={"Mental"}
-            titleOfSubGoal={"Learning how to deal with stress"}
-            description={
-              "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
-            }
-          />
-        </div>
-        <div className={"flex items-center justify-center"}>
-          <h1 className="mb-4 md:text-4xl font-extrabold leading-none tracking-tight text-gray-900 mt-2">
-            Recommended goals
-          </h1>
-        </div>
-        <div className={"grid grid-cols-2 gap-10"}>
-          {goals?.map((goal, index) => (
+      {selectedGoal ? (
+        <GoalDetails goal={selectedGoal} />
+      ) : (
+        <div
+          style={{
+            backgroundImage:
+              'url("https://img.freepik.com/premium-vector/abstract-medical-background-with-hexagons-pattern-concepts-ideas-healthcare-technology-innovation-medicine-health-science-research_120542-537.jpg")',
+          }}
+        >
+          <div className={"flex items-center justify-center"}>
+            <h1 className="mb-4 md:text-4xl font-extrabold leading-none tracking-tight text-gray-900 mt-2">
+              Your active tasks
+            </h1>
+          </div>
+          <div className={"grid grid-cols-2 gap-2"}>
             <GoalElement
-              key={index}
               typeOfGoal={"Mental"}
-              titleOfSubGoal={goal.title}
-              description={goal.description}
+              titleOfSubGoal={"Learning how to deal with stress"}
+              description={
+                "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
+              }
             />
-          ))}
+            <GoalElement
+              typeOfGoal={"Mental"}
+              titleOfSubGoal={"Learning how to deal with stress"}
+              description={
+                "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
+              }
+            />
+            <GoalElement
+              typeOfGoal={"Mental"}
+              titleOfSubGoal={"Learning how to deal with stress"}
+              description={
+                "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
+              }
+            />
+            <GoalElement
+              typeOfGoal={"Mental"}
+              titleOfSubGoal={"Learning how to deal with stress"}
+              description={
+                "Mental health refers to a person's emotional, psychological, and social well-being. It encompasses an individual's ability to manage stress, cope with life's challenges, maintain positive relationships."
+              }
+            />
+          </div>
+          <div className={"flex items-center justify-center"}>
+            <h1 className="mb-4 md:text-4xl font-extrabold leading-none tracking-tight text-gray-900 mt-2">
+              Recommended goals
+            </h1>
+          </div>
+          <div className={"grid grid-cols-2 gap-10"}>
+            {goals?.map((goal, index) => (
+              <GoalElement
+                key={index}
+                typeOfGoal={"Mental"}
+                titleOfSubGoal={goal.title}
+                goal={goal}
+                goBack={goBack}
+                openGoalDetails={setSelectedGoal}
+                description={goal.description}
+              />
+            ))}
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      )}
     </>
   );
 };
@@ -79,9 +94,15 @@ export const GoalElement: FC<{
   description: string;
   typeOfGoal: string;
   titleOfSubGoal: string;
+  goal?: Goal;
+  openGoalDetails?: Dispatch<SetStateAction<Goal | null>>;
+  goBack?: () => void;
 }> = (props) => {
   return (
-    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl cursor-pointer hover:scale-105">
+    <div
+      className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl cursor-pointer hover:scale-105"
+      onClick={() => props.openGoalDetails?.(props.goal ?? null)}
+    >
       <Box sx={{ width: "100%" }}>
         <LinearProgress variant="determinate" value={69} />
       </Box>

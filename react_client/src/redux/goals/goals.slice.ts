@@ -1,20 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { GoalsResponse } from './goals.types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { BuildUserGoalsResponse, Goal } from '../../pages/dashboardPage/goalDetails/GoalDetails.types';
 
-const initialState: GoalsResponse = {
-  goals: []
+const initialState: BuildUserGoalsResponse = {
+  goals: new Array<Goal>()
 };
 
 export const goalsSlice = createSlice({
-  initialState,
   name: 'goals',
+  initialState,
   reducers: {
-    updateGoals: (state, action) => {
+    setGoals: (state, action: PayloadAction<Array<Goal>>) => {
       state.goals = action.payload;
     }
   }
 });
 
-export const { updateGoals } = goalsSlice.actions;
+export const { setGoals } = goalsSlice.actions;
 
 export default goalsSlice.reducer;

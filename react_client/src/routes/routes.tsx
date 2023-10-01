@@ -14,11 +14,11 @@ export const router = createBrowserRouter([
     errorElement: <div>wyjebało się</div>,
     path: "/dashboard",
   },
-  {
-    element: <GoalDetails />,
-    errorElement: <div>wyjebało się</div>,
-    path: "/goalDetails",
-  },
+  // {
+  //   element: <GoalDetails />,
+  //   errorElement: <div>wyjebało się</div>,
+  //   path: "/goalDetails",
+  // },
 ]);
 
 export default router;

@@ -9,8 +9,8 @@ export const sendBuildUserGoalsRequest = async (buildUserGoalsProps: Map<string,
     if (response.status === 200) {
       return response.data;
     }
-    return false;
+    return null;
   } catch (e) {
-    return false;
+    return null;
   }
 };
