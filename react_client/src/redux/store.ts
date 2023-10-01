@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import goalsReducer from './goals/goals.slice';
 
 export const store = configureStore({
-  reducer: {}
+  reducer: {
+    goals: goalsReducer
+  }
 });
 
 export type RootState = ReturnType<typeof store.getState>;
