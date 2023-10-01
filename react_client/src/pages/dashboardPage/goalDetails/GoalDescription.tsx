@@ -14,7 +14,7 @@ const GoalDescription: FC = () => {
                     <Grid container spacing={1}>
                         <Grid item xs={12} md={6}>
                             <Box p={2}>
-                                <Typography variant="h6">"My Health in My Hands" signifies personal responsibility for well-being. It emphasizes proactive choices in physical and mental health management. In a complex healthcare environment, it underscores the importance of preventive measures, self-awareness, and daily decisions. Embracing this mindset empowers individuals to take control of their health journey, fostering autonomy and resilience in achieving overall well-being.</Typography>
+                                <Typography variant="h6">My Health in My Hands" signifies personal responsibility for well-being. It emphasizes proactive choices in physical and mental health management. In a complex healthcare environment, it underscores the importance of preventive measures, self-awareness, and daily decisions. Embracing this mindset empowers individuals to take control of their health journey, fostering autonomy and resilience in achieving overall well-being.</Typography>
                                 <p>Learn more: <Link href="https://pornhub.com">Best exercises to stay in shape</Link></p>
                             </Box>
                         </Grid>
